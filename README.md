@@ -13,3 +13,69 @@
 <br>
 
 
+步骤：
+
+1 生成二维码链接地址
+
+```
+String payNativeUrl = PayUtils.generateMchPayNativeRequestURL(productId);
+```
+然后可以通过jqueyQrcode的插件，在页面上生成二维码
+
+2 扫码二维码后微信发送的请求处理
+
+封装输入信息
+
+```
+PayNativeInput payNativeInput = PayUtils.convertRequest(request.getInputStream());
+
+```
+
+验证合法性
+
+```
+			
+boolean validate = PayUtils.validateAppSignature(payNativeInput);
+
+if(!validate){
+	return null;
+}
+```
+
+封装商品信息
+
+```
+			
+			PayPackage payPackage = new PayPackage();
+		
+			payPackage.setAppid(payNativeInput.getAppid());
+			payPackage.setAttach("test");
+			payPackage.setBody("product");
+			payPackage.setNonce_str(payNativeInput.getNonce_str());
+			payPackage.setMch_id(payNativeInput.getMch_id());
+			payPackage.setOpenid(payNativeInput.getOpenid());
+			payPackage.setOut_trade_no(UUID.randomUUID().toString().replace("-", ""));
+			payPackage.setProduct_id(payNativeInput.getProduct_id());
+			payPackage.setSpbill_create_ip("127.0.0.1");
+			payPackage.setTotal_fee("1");
+			payPackage.setTrade_type("NATIVE");
+```
+
+发送统一下单请求
+
+```
+	String replyXml = PayUtils.generatePayNativeReplyXML(payPackage);
+```
+
+3 支付成功回调
+
+```
+PayCallbackNotify payCallbackNotify = PayUtils.payCallbackNotify(request.getInputStream());
+if(payCallbackNotify.isPaySuccess()){
+	String content = PayUtils.generatePaySuccessReplyXML();
+	return content;
+}
+			
+```
+
+
