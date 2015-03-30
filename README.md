@@ -46,19 +46,20 @@ if(!validate){
 
 ```
 			
-			PayPackage payPackage = new PayPackage();
-		
-			payPackage.setAppid(payNativeInput.getAppid());
-			payPackage.setAttach("test");
-			payPackage.setBody("product");
-			payPackage.setNonce_str(payNativeInput.getNonce_str());
-			payPackage.setMch_id(payNativeInput.getMch_id());
-			payPackage.setOpenid(payNativeInput.getOpenid());
-			payPackage.setOut_trade_no(UUID.randomUUID().toString().replace("-", ""));
-			payPackage.setProduct_id(payNativeInput.getProduct_id());
-			payPackage.setSpbill_create_ip("127.0.0.1");
-			payPackage.setTotal_fee("1");
-			payPackage.setTrade_type("NATIVE");
+PayPackage payPackage = new PayPackage();
+
+payPackage.setAppid(payNativeInput.getAppid());
+payPackage.setAttach("test");
+payPackage.setBody("product");
+payPackage.setNonce_str(payNativeInput.getNonce_str());
+payPackage.setMch_id(payNativeInput.getMch_id());
+payPackage.setOpenid(payNativeInput.getOpenid());
+payPackage.setOut_trade_no(UUID.randomUUID().toString().replace("-", ""));
+payPackage.setProduct_id(payNativeInput.getProduct_id());
+payPackage.setSpbill_create_ip("127.0.0.1");
+payPackage.setTotal_fee("1");
+payPackage.setTrade_type("NATIVE");
+
 ```
 
 发送统一下单请求
@@ -76,6 +77,17 @@ if(payCallbackNotify.isPaySuccess()){
 	return content;
 }
 			
+```
+
+系统依赖jar包
+
+```
+compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.4.0'
+compile 'org.apache.httpcomponents:httpclient:4.4'
+compile 'log4j:log4j:1.2.17'
+compile 'commons-io:commons-io:2.3'
+compile 'commons-beanutils:commons-beanutils:1.9.2'
+	
 ```
 
 
